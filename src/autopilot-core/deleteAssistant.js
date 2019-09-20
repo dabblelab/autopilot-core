@@ -71,6 +71,10 @@ const deleteAssistant = async (assistantIdentifier,twilioClient) => {
 
       const modelBuilds = await ModelBuilds.list(twilioClient, assistantIdentifier);
 
+      modelBuilds.sort(function(a,b){
+        return new Date(a.dateCreated) - new Date(b.dateCreated);
+      });
+
       for(let modelBuild of modelBuilds){
 
         await ModelBuilds.remove(twilioClient, assistantIdentifier, modelBuild.uniqueName);

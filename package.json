@@ -1,6 +1,6 @@
 {
   "name": "@dabblelab/autopilot-core",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "Core functionality for the Twilio Autopilot CLI and the Twilio Autopilot Plugin for the Twilio CLI.",
   "main": "index.js",
   "scripts": {
@@ -24,18 +24,18 @@
   },
   "homepage": "https://github.com/dabblelab/autopilot-core#readme",
   "dependencies": {
-    "inquirer": "^6.2.1",
-    "lodash": "^4.17.11",
-    "pretty-json-stringify": "0.0.2",
-    "request-promise": "^4.2.2",
-    "request": "^2.34",
-    "ora": "^3.0.0",
-    "simple-git": "^1.107.0",
-    "underscore": "^1.9.1",
+    "csv-parse": "^4.3.3",
     "extract-zip": "1.6.7",
     "fs-extra": "7.0.1",
-    "csv-parse": "^4.3.3",
-    "moment": "^2.24.0"
+    "inquirer": "^6.2.1",
+    "lodash": "^4.17.11",
+    "moment": "^2.24.0",
+    "ora": "^3.0.0",
+    "pretty-json-stringify": "0.0.2",
+    "request": "^2.34",
+    "request-promise": "^4.2.2",
+    "simple-git": "^1.107.0",
+    "underscore": "^1.9.1"
   },
   "devDependencies": {
     "chai": "^4.2.0",
