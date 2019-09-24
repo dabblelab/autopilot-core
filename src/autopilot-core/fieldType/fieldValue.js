@@ -224,7 +224,7 @@ const addFieldValues = async(twilioClient, assistantUniqueName, fieldTypeUniqueN
             return assistantUniqueName;
         }).catch(async ( error ) => {
 
-            if(error.exitCode == 20404){
+            if(error.exitCode == 20404 || error.code == 20404){
 
                 await twilioClient.autopilot
                     .assistants(assistantUniqueName)
@@ -266,8 +266,7 @@ const field_value_add = async(twilioClient, assistantUniqueName, fieldTypeUnique
                 .create(fieldValuesJSON[i])
                 .catch((error) => {
 
-                    if(error.exitCode != 35002){
-
+                    if(!error.message.includes('FieldValue already in use')){
                         throw error;
                     }
                     
