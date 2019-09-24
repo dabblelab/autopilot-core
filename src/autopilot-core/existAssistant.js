@@ -26,7 +26,7 @@ const existAssistant = async (modelPath, twilioClient) => {
         })
         .catch((error) => {
 
-            if(error.exitCode === 20404){
+            if(error.exitCode === 20404 || error.code === 20404){
 
                 return false;
             }else{
