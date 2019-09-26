@@ -15,7 +15,7 @@ const updateAssistant = async (schemaFile, twilioClient, assistantSid) => {
 
   const schema = require(schemaFile);
 
-  if (!assistantSid || !schema.hasOwnProperty('uniqueName')) {
+  if (!(assistantSid || schema.hasOwnProperty('uniqueName'))) {
     throw new Error(`The 'uniqueName' property must be defined either as argument or in your schema.`);
   }
 
