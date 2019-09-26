@@ -6,25 +6,26 @@ const fs = require('fs'),
       FieldType = require('./fieldType/fieldValue'),
       AssistantTask = require('./tasks');
 
-const updateAssistant = async (schemaFile, twilioClient) => {
+const updateAssistant = async (schemaFile, twilioClient, assistantSid) => {
 
 
   if (!fs.existsSync(schemaFile)) {
-    throw new Error(`The file ${schemaFile} was not be found.`)
+    throw new Error(`The file ${schemaFile} was not found.`);
   }
 
   const schema = require(schemaFile);
 
-  if (!schema.hasOwnProperty('uniqueName')) {
-    throw new Error(`The 'uniqueName' property must be defined in your schema.`)
+  if (!assistantSid || !schema.hasOwnProperty('uniqueName')) {
+    throw new Error(`The 'uniqueName' property must be defined either as argument or in your schema.`);
   }
 
+  const assistantUniqueName = assistantSid || schema.uniqueName;
   return await Promise.resolve()
 
     //fetch the assistant info
     .then(( ) => {
 
-      return Assistants.info(twilioClient, schema.uniqueName);
+      return Assistants.info(twilioClient, assistantUniqueName);
     })
 
     //update basic assistant properties and their actions and style sheet
@@ -52,35 +53,34 @@ const updateAssistant = async (schemaFile, twilioClient) => {
     //removing tasks, samples, and field types
     .then(async (assistant) => {
 
-        let taskList = [], sampleList = [], fieldList = [];
+        let taskList = [];
         const tasks = await Tasks.list(twilioClient, assistant.uniqueName);
 
         for(let task of tasks){
 
+          await AssistantTask.deleteTaskSamples(twilioClient, assistantUniqueName, task);
+          await AssistantTask.deleteTaskFields(twilioClient, assistantUniqueName, task);
+
           const index = _.findIndex(schema.tasks, { "uniqueName" : task.uniqueName});
           if(index < 0){
 
-            await AssistantTask.deleteNotExistTaskSamples(twilioClient, schema.uniqueName, task);
-            await AssistantTask.deleteNotExistTaskFields(twilioClient, schema.uniqueName, task);
-            await Tasks.remove(twilioClient, schema.uniqueName, task.uniqueName);
-
+            await Tasks.remove(twilioClient, assistantUniqueName, task.uniqueName);
           }else{
-
-            sampleList = await AssistantTask.deleteNotExistTaskSamples(twilioClient, schema.uniqueName, task, schema.tasks[index]);
-            fieldList = await AssistantTask.deleteNotExistTaskFields(twilioClient, schema.uniqueName, task, schema.tasks[index]);
-
-            task.sampleList = sampleList;
-            task.fieldList = fieldList;
-            taskList.push(task);  
+            
+            taskList.push(schema.tasks[index]);  
           }
         }
 
-        await FieldType.deleteNotExistFieldTypes(twilioClient, schema.uniqueName, schema.fieldTypes);
+        await FieldType.deleteNotExistFieldTypes(twilioClient, assistantUniqueName, schema.fieldTypes);
 
         for(let task of taskList){
 
-          await AssistantTask.addUpdateTaskFields(twilioClient, assistant.uniqueName, task.uniqueName, task.fieldList, schema.tasks);
-          await AssistantTask.addTNotExistTaskSamples(twilioClient, assistant.uniqueName, task.uniqueName, task.sampleList, schema.tasks);
+          await AssistantTask.addTaskFields(twilioClient, assistant.uniqueName, task.uniqueName, task.fields);
+          await AssistantTask.addTaskSamples(twilioClient, assistant.uniqueName, task.uniqueName, task.samples);
+          const params = {
+              actions : task.actions
+          };
+          await Tasks.update(twilioClient, assistant.uniqueName, task.uniqueName, params);
         }
         
         return {taskList : taskList, assistant : assistant};
@@ -89,8 +89,6 @@ const updateAssistant = async (schemaFile, twilioClient) => {
     // delete assistant custom field types
     .then( async ({taskList, assistant}) => {
 
-
-      
       const tasks1 = (taskList.length >= schema.tasks.length) ? taskList : schema.tasks,
               tasks2 = (schema.tasks.length <= taskList.length) ? schema.tasks : taskList;
 
@@ -103,9 +101,9 @@ const updateAssistant = async (schemaFile, twilioClient) => {
           actions: task.actions 
         };
 
-        await Tasks.create(twilioClient, schema.uniqueName, params);
-        await AssistantTask.addUpdateTaskFields(twilioClient, schema.uniqueName, task.uniqueName, task.fields);
-        await AssistantTask.addTNotExistTaskSamples(twilioClient, schema.uniqueName, task.uniqueName, task.samples);
+        await Tasks.create(twilioClient, assistantUniqueName, params);
+        await AssistantTask.addTaskFields(twilioClient, assistantUniqueName, task.uniqueName, task.fields);
+        await AssistantTask.addTaskSamples(twilioClient, assistantUniqueName, task.uniqueName, task.samples);
       }
 
       return assistant;

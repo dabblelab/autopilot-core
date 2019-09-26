@@ -211,66 +211,50 @@ const addFieldValues = async(twilioClient, assistantUniqueName, fieldTypeUniqueN
 
     try{
 
-        await twilioClient.autopilot
-        .assistants(assistantUniqueName)
-        .fieldTypes(fieldTypeUniqueName)
-        .fetch().then( async ( fieldTypes ) => {
+        const fieldTypes = await FieldTypes.info(twilioClient, assistantUniqueName, fieldTypeUniqueName);
+        const fieldValuesJSON = await getFieldValuesFromCSV(csvFile);
+        await field_value_add(twilioClient, assistantUniqueName, fieldTypes.uniqueName, fieldValuesJSON);
+        return assistantUniqueName;
 
-            await deleteFieldValues(twilioClient, assistantUniqueName, fieldTypes.uniqueName);
-            const fieldValuesJSON = await getFieldValuesFromCSV(csvFile);
+    }catch(error){
 
-            await field_value_add(twilioClient, assistantUniqueName, fieldTypes.uniqueName, fieldValuesJSON);
-
-            return assistantUniqueName;
-        }).catch(async ( error ) => {
+        return (async() => {
 
             if(error.exitCode == 20404 || error.code == 20404){
 
-                await twilioClient.autopilot
-                    .assistants(assistantUniqueName)
-                    .fieldTypes
-                    .create({ uniqueName: fieldTypeUniqueName })
-                    .then( async (result) => {
+                try{
 
-                        const fieldValuesJSON = await getFieldValuesFromCSV(csvFile);
-                        await field_value_add(twilioClient, assistantUniqueName, result.uniqueName, fieldValuesJSON);
+                    const params = { uniqueName: fieldTypeUniqueName };
+                    const result = await FieldTypes.create(twilioClient, assistantUniqueName, params);
+                    const fieldValuesJSON = await getFieldValuesFromCSV(csvFile);
+                    await field_value_add(twilioClient, assistantUniqueName, result.uniqueName, fieldValuesJSON);
+                    return assistantUniqueName;
+                }catch(err){
 
-                        return assistantUniqueName;
-                    })
-                    .catch(err => {
-                        throw err;
-                    });
-            }
-            else{
+                    throw err;
+                }
+                
+            }else{
 
                 throw error;
             }
-        })
-
-    }catch(err){
-
-        throw err;
+        })();
     }
 }
 
 const field_value_add = async(twilioClient, assistantUniqueName, fieldTypeUniqueName, fieldValuesJSON) => {
 
-    if(fieldValuesJSON.length){
+    for(let fieldValueJSON of fieldValuesJSON){
+        
+        try{
 
-        for( let i = 0 ; i < fieldValuesJSON.length ; i ++){
 
-            await twilioClient.autopilot
-                .assistants(assistantUniqueName)
-                .fieldTypes(fieldTypeUniqueName)
-                .fieldValues
-                .create(fieldValuesJSON[i])
-                .catch((error) => {
+            await FieldValues.create(twilioClient, assistantUniqueName, fieldTypeUniqueName, fieldValueJSON);
+        }catch(error){
 
-                    if(!error.message.includes('FieldValue already in use')){
-                        throw error;
-                    }
-                    
-                })
+            if(!error.message.includes('FieldValue already in use')){
+                throw error;
+            }
         }
     }
     return assistantUniqueName;
@@ -281,64 +265,36 @@ const getFieldValuesFromCSV = async(csvFile) => {
     const readFile = util.promisify(fs.readFile),
           parser = util.promisify(parse);
 
+
     try{
 
-        return readFile(csvFile)
-        .then( async (data) => {
+        const data = await readFile(csvFile),
+              parsedData = await parser(data, {
+                    trim: true,
+                    skip_empty_lines: true
+                });
 
-            return parser(data, {
-                trim: true,
-                skip_empty_lines: true
-            })
-            .then((parsedData) => {
-        
-                let fieldValues = [];
-                if(parsedData.length){
+        let fieldValues = [];
+        for(let fieldValue of parsedData){
 
-                    for( let i = 0 ; i < parsedData.length ; i ++){
+            const fldvls = fieldValue.filter(Boolean);
+            let synonymOf = '';
+            for(let [index, value] of fldvls.entries()){
 
-                        const fldvl = parsedData[i].filter(Boolean);
-                        if(fldvl.length){
+                fieldValues.push({
+                    "language": "en-US",
+                    "value": value.trim(),
+                    "synonymOf": synonymOf
+                });
 
-                            let synonymOf = '';
-                            for(let j = 0 ; j < fldvl.length ; j ++){
+                if(index === 0)
+                    synonymOf = value.trim();
+            }
+        }
+        return fieldValues;
+    }catch(error){
 
-                                if(j == 0){
-
-                                    fieldValues.push({
-                                        "language": "en-US",
-                                        "value": fldvl[j].trim(),
-                                        "synonymOf": synonymOf
-                                    });
-
-                                    synonymOf = fldvl[j].trim();
-                                }else{
-
-                                    fieldValues.push({
-                                        "language": "en-US",
-                                        "value": fldvl[j].trim(),
-                                        "synonymOf": synonymOf
-                                    });
-                                }
-                                
-                            }                            
-                        }
-                    }
-                }
-                return fieldValues;
-            })
-            .catch((err) => {
-        
-                throw err;
-            })
-        })
-        .catch((err) => {
-
-            throw err;
-        })
-    }catch(err){
-
-        throw err;
+        throw error;
     }
     
 }
