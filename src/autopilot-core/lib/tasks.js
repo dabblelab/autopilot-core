@@ -34,6 +34,20 @@ Tasks.prototype.list = async(twilioClient, assistantUniqueName) => {
 }
 
 /**
+ * fetch a task detail of an assistant
+ * @twilioClient {object} 
+ * @assistantUniqueName {string}
+ * @taskUniuqeName {string} 
+ */
+Tasks.prototype.fetch = async(twilioClient, assistantUniqueName, taskUniuqeName) => {
+    
+    return twilioClient.autopilot
+            .assistants(assistantUniqueName)
+            .tasks(taskUniuqeName)
+            .fetch();
+}
+
+/**
  * update a task of an assistant
  * @twilioClient {object} 
  * @assistantUniqueName {string}

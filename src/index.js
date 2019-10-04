@@ -13,5 +13,6 @@ AutopilotCore.prototype.importAlexaModel = require('./autopilot-core/importAlexa
 AutopilotCore.prototype.importDialogFlowAgent = require('./autopilot-core/importAssistant');
 AutopilotCore.prototype.existAssistant = require('./autopilot-core/existAssistant');
 AutopilotCore.prototype.deleteAssistant = require('./autopilot-core/deleteAssistant');
+AutopilotCore.prototype.tasks = require('./autopilot-core/lib/tasks');
 
 module.exports = new AutopilotCore();

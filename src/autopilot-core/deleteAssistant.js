@@ -77,7 +77,7 @@ const deleteAssistant = async (assistantIdentifier,twilioClient) => {
 
       for(let modelBuild of modelBuilds){
 
-        await ModelBuilds.remove(twilioClient, assistantIdentifier, modelBuild.uniqueName);
+        await ModelBuilds.remove(twilioClient, assistantIdentifier, modelBuild.sid);
       }
 
       return assistant;
