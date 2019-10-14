@@ -43,6 +43,22 @@ Fields.prototype.list = async(twilioClient, assistantUniqueName, taskUniqueName)
  * @taskUniqueName {string}
  * @fieldUniqueName {string}
  */
+Fields.prototype.fetch = async(twilioClient, assistantUniqueName, taskUniqueName, fieldUniqueName) => {
+    
+    return twilioClient.autopilot
+            .assistants(assistantUniqueName)
+            .tasks(taskUniqueName)
+            .fields(fieldUniqueName)
+            .fetch()
+}
+
+/**
+ * remove a field of the task of an assistant
+ * @twilioClient {object} 
+ * @assistantUniqueName {string}
+ * @taskUniqueName {string}
+ * @fieldUniqueName {string}
+ */
 Fields.prototype.remove = async(twilioClient, assistantUniqueName, taskUniqueName, fieldUniqueName) => {
     
     return twilioClient.autopilot

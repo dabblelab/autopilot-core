@@ -78,7 +78,7 @@ module.exports = {
         })
       }
 
-      const updateRestoreSchema = await await fs.writeFileSync(filePath,prettyJSONStringify(restoreSchemaJSON));
+      const updateRestoreSchema = await fs.writeFileSync(filePath,prettyJSONStringify(restoreSchemaJSON));
 
       return writeData;
     }else{

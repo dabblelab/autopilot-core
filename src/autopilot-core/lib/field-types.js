@@ -7,7 +7,8 @@ function FieldTypes(){
  * @twilioClient {object} 
  * @assistantUniqueName {string}
  * @params {object} = {
- *      uniqueName : string
+ *      uniqueName : string,
+ *      friendlyName : string
  * }
  */
 FieldTypes.prototype.create = async(twilioClient, assistantUniqueName, params) => {
@@ -29,6 +30,24 @@ FieldTypes.prototype.list = async(twilioClient, assistantUniqueName) => {
             .assistants(assistantUniqueName)
             .fieldTypes
             .list();
+}
+
+/**
+ * update field-type of an assistant
+ * @twilioClient {object} 
+ * @assistantUniqueName {string}
+ * @fieldTypeUniqueName {string}
+ * @params {object} = {
+ *      uniqueName : string,
+ *      friendlyName : string
+ * }
+ */
+FieldTypes.prototype.update = async(twilioClient, assistantUniqueName, fieldTypeUniqueName, params) => {
+
+    return twilioClient.autopilot
+            .assistants(assistantUniqueName)
+            .fieldTypes(fieldTypeUniqueName)
+            .update(params);
 }
 
 /**

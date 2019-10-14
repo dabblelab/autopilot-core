@@ -10,12 +10,21 @@ function ModelBuilds(){
  * @twilioClient {object} 
  * @assistantUniqueName {string}
  */
-ModelBuilds.prototype.create = async(twilioClient, assistantUniqueName) => {
+ModelBuilds.prototype.create = async(twilioClient, assistantUniqueName, params=false) => {
 
-    return twilioClient.autopilot
+    if(params){
+
+        return twilioClient.autopilot
             .assistants(assistantUniqueName)
             .modelBuilds
-            .create({ uniqueName: `${assistantUniqueName}_${moment().format('D-M-YYYY_H.mm.ssA')}` });
+            .create(params);
+    }else{
+
+        return twilioClient.autopilot
+            .assistants(assistantUniqueName)
+            .modelBuilds
+            .create();
+    }
 }
 
 /**

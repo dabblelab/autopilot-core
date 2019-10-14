@@ -1,6 +1,6 @@
 {
   "name": "@dabblelab/autopilot-core",
-  "version": "1.0.0-beta.7",
+  "version": "1.0.0-beta.8",
   "description": "Core functionality for the Twilio Autopilot CLI and the Twilio Autopilot Plugin for the Twilio CLI.",
   "main": "index.js",
   "scripts": {
@@ -24,7 +24,8 @@
   },
   "homepage": "https://github.com/dabblelab/autopilot-core#readme",
   "dependencies": {
-    "csv-parse": "^4.3.3",
+    "csv-parse": "^4.6.3",
+    "csv-writer": "^1.5.0",
     "extract-zip": "1.6.7",
     "fs-extra": "7.0.1",
     "inquirer": "^6.2.1",
