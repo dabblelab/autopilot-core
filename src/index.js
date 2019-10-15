@@ -20,6 +20,7 @@ AutopilotCore.prototype.tasks = require('./autopilot-core/lib/tasks');
 AutopilotCore.prototype.fields = require('./autopilot-core/lib/fields');
 AutopilotCore.prototype.fieldTypes = require('./autopilot-core/lib/field-types');
 AutopilotCore.prototype.queries = require('./autopilot-core/lib/queries');
+AutopilotCore.prototype.webhooks = require('./autopilot-core/lib/webhooks');
 AutopilotCore.prototype.modelBuilds = require('./autopilot-core/lib/model-builds');
 
 module.exports = new AutopilotCore();
