@@ -22,5 +22,6 @@ AutopilotCore.prototype.fieldTypes = require('./autopilot-core/lib/field-types')
 AutopilotCore.prototype.queries = require('./autopilot-core/lib/queries');
 AutopilotCore.prototype.webhooks = require('./autopilot-core/lib/webhooks');
 AutopilotCore.prototype.modelBuilds = require('./autopilot-core/lib/model-builds');
+AutopilotCore.prototype.builtInFieldTypes = require('./autopilot-core/builtInFieldTypes.json');
 
 module.exports = new AutopilotCore();

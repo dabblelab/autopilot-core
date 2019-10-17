@@ -1,6 +1,6 @@
 {
   "name": "@dabblelab/autopilot-core",
-  "version": "1.0.0-beta.9",
+  "version": "1.0.0-beta.10",
   "description": "Core functionality for the Twilio Autopilot CLI and the Twilio Autopilot Plugin for the Twilio CLI.",
   "main": "index.js",
   "scripts": {

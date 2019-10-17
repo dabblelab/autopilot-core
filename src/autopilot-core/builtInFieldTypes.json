@@ -1,0 +1,97 @@
+[
+    {
+        "sid" : "UB9bce39a559ebba8ad7cc0eb050b006f9",
+        "friendlyName" : "ALPHANUMERIC",
+        "uniqueName" : "Twilio.ALPHANUMERIC"
+    },
+    {
+        "sid" : "UB38ae14ac8665efbcaafa967eb7da9ded",
+        "friendlyName" : "NUMBER_SEQUENCE",
+        "uniqueName" : "Twilio.NUMBER_SEQUENCE"
+    },
+    {
+        "sid" : "UBeb96371fcad6f2de0aa3b7b2ccb0edad",
+        "friendlyName" : "PHONE_NUMBER",
+        "uniqueName" : "Twilio.PHONE_NUMBER"
+    },
+    {
+        "sid" : "UB377f7bb9716a4200563feeb205c4b98a",
+        "friendlyName" : "YES_NO",
+        "uniqueName" : "Twilio.YES_NO"
+    },
+    {
+        "sid" : "UB90ae830d3ba92630e776aece499e4c3d",
+        "friendlyName" : "LANGUAGE",
+        "uniqueName" : "Twilio.LANGUAGE"
+    },
+    {
+        "sid" : "UB67553e526f26837242dfb54cd8b6ab0c",
+        "friendlyName" : "COUNTRY_ISO_ALPHA3",
+        "uniqueName" : "Twilio.COUNTRY_ISO_ALPHA3"
+    },
+    {
+        "sid" : "UB263f22d51bad0933ee6df561b5eb4174",
+        "friendlyName" : "COUNTRY_ISO_ALPHA2",
+        "uniqueName" : "Twilio.COUNTRY_ISO_ALPHA2"
+    },
+    {
+        "sid" : "UBee5a6123468ac8691cfa1b21297753c5",
+        "friendlyName" : "CURRENCY",
+        "uniqueName" : "Twilio.CURRENCY"
+    },
+    {
+        "sid" : "UB4130bb37b688db48eee4c6225c442c39",
+        "friendlyName" : "CITY",
+        "uniqueName" : "Twilio.CITY"
+    },
+    {
+        "sid" : "UB68c611f8170b88406f14dd0f4daf2d22",
+        "friendlyName" : "US_STATE",
+        "uniqueName" : "Twilio.US_STATE"
+    },
+    {
+        "sid" : "UB1acd1e47b32288fedb829b2da7e1b161",
+        "friendlyName" : "LAST_NAME",
+        "uniqueName" : "Twilio.LAST_NAME"
+    },
+    {
+        "sid" : "UB04cc3caa97eebecb37d7306941fead79",
+        "friendlyName" : "FIRST_NAME",
+        "uniqueName" : "Twilio.FIRST_NAME"
+    },
+    {
+        "sid" : "UB36e50a2caa1b826ce7da4aaa444cec08",
+        "friendlyName" : "EMAIL",
+        "uniqueName" : "Twilio.EMAIL"
+    },
+    {
+        "sid" : "UBd4fc42d42a99ccff01053d6b99d5a5b9",
+        "friendlyName" : "DAY_OF_WEEK",
+        "uniqueName" : "Twilio.DAY_OF_WEEK"
+    },
+    {
+        "sid" : "UB6158e3f6fc519ac5e8aee4eca7fc63b9",
+        "friendlyName" : "MONTH",
+        "uniqueName" : "Twilio.MONTH"
+    },
+    {
+        "sid" : "UB33a70fdcf028f0b38718fa3af13fa0ad",
+        "friendlyName" : "COUNTRY",
+        "uniqueName" : "Twilio.COUNTRY"
+    },
+    {
+        "sid" : "UB299b79bec26e8de166658d66cc35f191",
+        "friendlyName" : "Twilio.TIME entity type",
+        "uniqueName" : "Twilio.TIME"
+    },
+    {
+        "sid" : "UB98df8f10368a8219e8c502159ecb0d99",
+        "friendlyName" : "Twilio.DATE entity type",
+        "uniqueName" : "Twilio.DATE"
+    },
+    {
+        "sid" : "UB2d5c8ef1654c60cbf8a178c206314612",
+        "friendlyName" : "Twilio.NUMBER entity type",
+        "uniqueName" : "Twilio.NUMBER"
+    }
+]
