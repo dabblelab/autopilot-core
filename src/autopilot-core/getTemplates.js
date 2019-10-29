@@ -6,7 +6,7 @@ const fs = require('fs-extra');
 const ora = require('ora')
 const path = require('path');
 
-const clone = async (url, templateName) => {
+const clone = async (url, templateName, type='Assistants') => {
 
     try{
 
@@ -18,7 +18,7 @@ const clone = async (url, templateName) => {
 
         const cloneTemplate = templateMap[template_name];
 
-        const clonedFolder = await gitCloneTemplate(cloneTemplate);
+        const clonedFolder = await gitCloneTemplate(cloneTemplate, type);
 
         return cloneTemplate.folderName;
 
@@ -87,7 +87,7 @@ function getTargetTemplateName(templateList, inputName) {
     }
 }
 
-const gitCloneTemplate = async(cloneTemplate) =>{
+const gitCloneTemplate = async(cloneTemplate, type='Assistants') =>{
 
     const spinner = ora().start(' Initializing Twilio Autopilot project from the chosen' +
     ' template...')
@@ -101,16 +101,16 @@ const gitCloneTemplate = async(cloneTemplate) =>{
 
                 //const schemaPath = path.join(cloneDir, 'schema.json');
 
-                const clonedAssistantFolder = path.join(cloneDir, 'Assistants',cloneTemplate.folderName);
+                const clonedAssistantFolder = path.join(cloneDir, type,cloneTemplate.folderName);
                 await fs.copySync(clonedAssistantFolder,cloneDir);
 
                 await removeOtherClonedFolders(cloneDir, clonedAssistantFolder);
 
-                spinner.stop()
+                spinner.succeed()
                 return cloneDir;
            }).catch((error) => {
 
-                spinner.stop();
+                spinner.fail();
                 throw error;
            })
 
