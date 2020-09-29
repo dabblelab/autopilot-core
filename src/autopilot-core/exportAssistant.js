@@ -146,7 +146,7 @@ const exportAssistant = async (assistantSid, twilioClient, recoverSchema = false
             }
           }
 
-          const filename = await files.createAssistantJSONFile(assistant.uniqueName, recoverSchema);
+          const filename = files.createAssistantJSONFile(assistant.uniqueName, recoverSchema);
 
           await files.writeAssistantJSONFile(sampleAssistant, filename, recoverSchema);
 
