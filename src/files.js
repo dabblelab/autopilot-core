@@ -31,17 +31,17 @@ module.exports = {
   createAssistantJSONFile : async (filename, recoverSchema = false) => {
     if(recoverSchema){
       if(checkDirectoryExists()){
-        await fs.writeFileSync(path.join(twilioRecoverySchemaDir,`backup-${filename}.json`),prettyJSONStringify({}));
+        await fs.writeFileSync(path.join(twilioRecoverySchemaDir,`backup-${filename}.json`), prettyJSONStringify({}));
         return `backup-${filename}.json`;
       }
     }else{
       try{
         if(fs.existsSync(path.join(process.cwd(),`${filename}.json`))){
           filename = `${filename}-${Date.now()}.json`;
-          await fs.writeFileSync(path.join(process.cwd(),filename));
+          await fs.writeFileSync(path.join(process.cwd(),filename), prettyJSONStringify({}));
           return filename;
         }else{
-          await fs.writeFileSync(path.join(process.cwd(),`${filename}.json`),{});
+          await fs.writeFileSync(path.join(process.cwd(),`${filename}.json`), prettyJSONStringify({}));
           return `${filename}.json`;
         }
       } catch (err){
