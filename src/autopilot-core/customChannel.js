@@ -1,6 +1,6 @@
 
 
-const customChannel = async (assistantSid, channel, text, twilioClient) => {
+const customChannel = async (assistantSid, channel, text, twilioClient, UserId="", Language="") => {
 
     const request = require('request-promise');
   
@@ -17,8 +17,8 @@ const customChannel = async (assistantSid, channel, text, twilioClient) => {
             },
             form : {
                 Text : text,
-                UserId : twilioClient.accountSid,
-                Language : 'en-US'
+                UserId : UserId || twilioClient.accountSid,
+                Language : Language || 'en-US'
             },
             json : true
         }

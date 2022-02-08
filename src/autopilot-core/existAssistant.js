@@ -1,40 +1,37 @@
-const Assistants = require('./lib/assistants');
+const Assistants = require("./lib/assistants");
 
 const existAssistant = async (modelPath, twilioClient) => {
+  const fs = require("fs");
 
-    const fs = require('fs');
+  if (!fs.existsSync(modelPath)) {
+    throw new Error(`The file ${modelPath} was not be found.`);
+  }
 
-    if (!fs.existsSync(modelPath)) {
+  const schema = require(modelPath);
 
-        throw new Error(`The file ${modelPath} was not be found.`)
-    }
-    
-    const schema = require(modelPath);
+  if (
+    !schema.hasOwnProperty("friendlyName") &&
+    !schema.hasOwnProperty("uniqueName")
+  ) {
+    throw new Error(
+      `A 'friendlyName' and/or 'uniqueName' must be defined in your schema.`
+    );
+  }
 
-    if (!schema.hasOwnProperty('friendlyName') && !schema.hasOwnProperty('uniqueName')) {
+  return await Promise.resolve()
 
-        throw new Error(`A 'friendlyName' and/or 'uniqueName' must be defined in your schema.`)
-    }
-
-
-    return await Promise.resolve()
-
-        .then(async() => {
-
-            const assistant = await Assistants.info(twilioClient, schema.uniqueName);
-            return true;
-        })
-        .catch((error) => {
-
-            if(error.exitCode === 20404 || error.code === 20404){
-
-                return false;
-            }else{
-
-                throw error;
-            }
-        })
-    
-}
+    .then(async () => {
+      const assistant = await Assistants.info(twilioClient, schema.uniqueName);
+      return true;
+    })
+    .catch((error) => {
+      // error code 20404 means that the assistant does not exist
+      if (error.exitCode == "20" && error.data.code === 20404) {
+        return false;
+      } else {
+        throw error;
+      }
+    });
+};
 
 module.exports = existAssistant;
